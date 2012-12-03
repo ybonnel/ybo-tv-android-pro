@@ -5,7 +5,7 @@
 
     <groupId>fr.ybo</groupId>
     <artifactId>ybo-tv-android-pro</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>apk</packaging>
     <name>ybo-tv-android-pro</name>
 
@@ -33,6 +33,20 @@
                     <artifactId>android-maven-plugin</artifactId>
                     <version>3.1.1</version>
                     <inherited>true</inherited>
+                    <executions>
+                        <execution>
+                            <id>update-manifest</id>
+                            <goals>
+                                <goal>manifest-update</goal>
+                            </goals>
+                            <configuration>
+                                <manifest>
+                                    <versionName>${project.version}</versionName>
+                                    <versionCodeUpdateFromVersion>true</versionCodeUpdateFromVersion>
+                                </manifest>
+                            </configuration>
+                        </execution>
+                    </executions>
                     <configuration>
                         <androidManifestFile>${project.basedir}/AndroidManifest.xml</androidManifestFile>
                         <assetsDirectory>${project.basedir}/assets</assetsDirectory>
@@ -61,8 +75,18 @@
                     <artifactId>maven-release-plugin</artifactId>
                     <version>2.1</version>
                     <configuration>
+                        <preparationGoals>android:manifest-update scm:checkin</preparationGoals>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
-                        <goals>install -f ybo-tv-android-pro/pom.xml -Pandroid:release</goals>
+                        <goals>install -Pandroid:release</goals>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-scm-plugin</artifactId>
+                    <version>1.8.1</version>
+                    <configuration>
+                        <message>Change AndroidManifest.xml for ${project.version}</message>
+                        <includes>AndroidManifest.xml</includes>
+                        <excludes>pom.xml</excludes>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -271,8 +295,8 @@
     </developers>
 
     <scm>
-        <connection>scm:git://github.com/ybonnel/YboTv.git</connection>
-        <developerConnection>scm:git:git@github.com:ybonnel/YboTv.git</developerConnection>
-        <url>https://github.com/ybonnel/YboTv</url>
+        <connection>scm:git://github.com/ybonnel/ybo-tv-android-pro.git</connection>
+        <developerConnection>scm:git:git@github.com:ybonnel/ybo-tv-android-pro.git</developerConnection>
+        <url>https://github.com/ybonnel/ybo-tv-android-pro</url>
     </scm>
 </project>
